@@ -22,10 +22,14 @@ pipeline {
             }
         }
         stage('test') {
-            try {
-                sh 'mvn test'
-            } catch (ex) {
-                tests_failed = true
+            steps {
+                script {
+                    try {
+                        sh 'mvn test'
+                    } catch (ex) {
+                        tests_failed = true
+                    }
+                }
             }
         }
         stage('optional retest') {
