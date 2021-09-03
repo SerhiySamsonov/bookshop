@@ -30,7 +30,7 @@ pipeline {
         }
         stage('optional retest') {
             when {
-                tests_failed == true
+                tests_failed true
             }
             steps {
                 sh 'mvn test'
