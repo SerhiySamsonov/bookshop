@@ -24,13 +24,13 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        post {
-            unsuccessful {
-                sh '''
-                echo "Running them tests again..."
-                echo "Although I don' quite get how, I try to!"
-                '''
-            }
+    }
+    post {
+        unsuccessful {
+            sh '''
+            echo "Running them tests again..."
+            echo "Although I don' quite get how, I try to!"
+            '''
         }
     }
 }

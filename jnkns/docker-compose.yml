@@ -7,6 +7,14 @@ services:
     ports:
       - "8080:8080"
       - "50000:50000"
+  mail:
+    image: bytemark/smtp
+    restart: always
+    environment:
+      RELAY_HOST: smtp.example.com
+      RELAY_PORT: 587
+      RELAY_USERNAME: alice@example.com
+      RELAY_PASSWORD: secretpassword
 
 volumes:
   jenkins_home:
