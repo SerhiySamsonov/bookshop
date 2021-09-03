@@ -35,13 +35,6 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
-
-            when {
-                tests_failed == false
-            }
-            steps {
-                echo 'Nothing to do here...'
-            }
         }
     }
 }
