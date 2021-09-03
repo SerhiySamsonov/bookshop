@@ -22,27 +22,25 @@ pipeline {
             }
         }
         stage('test') {
-            steps {
-                try {
-                    sh 'mvn test'
-                } catch (ex) {
-                    tests_failed = true
-                }
+            try {
+                sh 'mvn test'
+            } catch (ex) {
+                tests_failed = true
             }
         }
         stage('optional retest') {
             when {
-                tests_failed
+                tests_failed == true
             }
             steps {
                 sh 'mvn test'
             }
 
             when {
-                !tests_failed
+                tests_failed == false
             }
             steps {
-            echo 'Nothing to do here...'
+                echo 'Nothing to do here...'
             }
         }
     }
