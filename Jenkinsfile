@@ -1,3 +1,5 @@
+def tests_failed = false
+
 pipeline {
     agent any
     tools {
@@ -21,16 +23,27 @@ pipeline {
         }
         stage('test') {
             steps {
-                sh 'mvn test'
+                try {
+                    sh 'mvn test'
+                } catch (ex) {
+                    tests_failed = true
+                }
             }
         }
-    }
-    post {
-        unsuccessful {
-            sh '''
-            echo "Running them tests again..."
-            echo "Although I don' quite get how, I try to!"
-            '''
+        stage('optional retest') {
+            when {
+                tests_failed
+            }
+            steps {
+                sh 'mvn test'
+            }
+
+            when {
+                !tests_failed
+            }
+            steps {
+            echo 'Nothing to do here...'
+            }
         }
     }
 }
