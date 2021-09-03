@@ -33,12 +33,17 @@ pipeline {
             }
         }
         stage('optional retest') {
-            when {
-                tests_failed true
-            }
             steps {
-                sh 'mvn test'
+                script {
+                    when {
+                        expression { tests_failed true }
+                    }
+                    steps {
+                        sh 'mvn test'
+                    }
+                }
             }
+
         }
     }
 }
