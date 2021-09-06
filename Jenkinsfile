@@ -35,10 +35,7 @@ pipeline {
         stage('optional retest') {
             steps {
                 script {
-                    when {
-                        expression { tests_failed true }
-                    }
-                    steps {
+                    if (tests_failed) {
                         sh 'mvn test'
                     }
                 }
