@@ -11,6 +11,8 @@ pipeline {
         stage('init') {
             steps {
                 sh '''
+                touch /opt/some/stuff/initStage1.txt
+                echo "init stage going on" > /opt/some/stuff/initStage1.txt
                 echo "PATH=${PATH}"
                 echo "M2_HOME=${M2_HOME}"
                 '''
@@ -18,11 +20,17 @@ pipeline {
         }
         stage('build') {
             steps {
+                sh '''
+                touch buildStage1.txt
+                echo "build stage going on" > buildStage1.txt
+                cat /opt/some/stuff/initStage1.txt
+                '''
                 sh 'mvn clean install -Dmaven.test.skip=true'
             }
         }
         stage('test') {
             steps {
+                sh 'cat buildStage1.txt'
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         tests_failed = true
@@ -40,6 +48,12 @@ pipeline {
                 }
             }
 
+        }
+    }
+    post {
+        always {
+            sh 'cat /opt/some/stuff/initStage1.txt'
+            sh 'cat buildStage1.txt'
         }
     }
 }
