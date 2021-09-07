@@ -11,7 +11,7 @@ pipeline {
         stage('init') {
             steps {
                 sh '''
-                touch /opt/some/stuff/initStage1.txt
+                touch /opt/initStage1.txt
                 echo "init stage going on" > /opt/some/stuff/initStage1.txt
                 echo "PATH=${PATH}"
                 echo "M2_HOME=${M2_HOME}"
@@ -23,7 +23,7 @@ pipeline {
                 sh '''
                 touch buildStage1.txt
                 echo "build stage going on" > buildStage1.txt
-                cat /opt/some/stuff/initStage1.txt
+                cat /opt/initStage1.txt
                 '''
                 sh 'mvn clean install -Dmaven.test.skip=true'
             }
@@ -52,7 +52,7 @@ pipeline {
     }
     post {
         always {
-            sh 'cat /opt/some/stuff/initStage1.txt'
+            sh 'cat /opt/initStage1.txt'
             sh 'cat buildStage1.txt'
         }
     }
