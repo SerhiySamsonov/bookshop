@@ -24,11 +24,9 @@ pipeline {
         stage('test') {
             steps {
                 script {
-                    try {
-                        throw new Exception("Arbitrary test step failure")
-                    } catch (ex) {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
                         tests_failed = true
-                        throw ex
+                        throw new Exception("Arbitrary test step failure")
                     }
                 }
             }
