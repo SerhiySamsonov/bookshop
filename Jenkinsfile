@@ -28,6 +28,7 @@ pipeline {
                         sh 'mvn test'
                     } catch (ex) {
                         tests_failed = true
+                        throw ex
                     }
                 }
             }
