@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'mvn test'
+                        throw new Exception("Arbitrary test step failure")
                     } catch (ex) {
                         tests_failed = true
                         throw ex
